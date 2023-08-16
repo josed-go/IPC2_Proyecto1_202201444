@@ -1,9 +1,14 @@
+from dato import dato
 import xml.etree.ElementTree as ET
 import os.path as path
 from os import remove
 
-def leer_xml():
-    tree = ET.parse("prueba.xml")
+from lista_datos import lista_datos
+
+lista = lista_datos()
+
+def leer_xml(archivo):
+    tree = ET.parse(archivo+".xml")
     root = tree.getroot()
 
     validar(root, tree)
@@ -33,7 +38,15 @@ def datos_senal(senal, t, A):
         valor_A = datos.get('A')
 
         if validar_datos(valor_t, valor_A, t, A) == True:
-            print("t =",datos.get('t'), "| A =",datos.get('A'), "| Valor = ", datos.text)
+            
+            valor = datos.text
+            if int(valor) > 1:
+                valor = 1
+
+            print("t =",datos.get('t'), "| A =",datos.get('A'), "| Valor = ", datos.text, "| Binario =", valor)
+            nuevo_dato = dato(datos.get('t'),datos.get('A'),datos.text, valor)
+            lista.agregar(nuevo_dato)
+
         elif validar_datos(valor_t, valor_A, t, A) == False:
             print(f"** DATOS NO VALIDOS, VALOR t = {valor_t} o A = {valor_A} PASAN EL RANGO **")
 
@@ -53,6 +66,9 @@ def validar(root, tree):
                     nuevo_dato.text = '0'
 
     tree.write('archivo_temporal.xml')
+
+def mostrar_datos():
+    lista.mostrar_lista()
 
 def validar_tiempo_amplitud(t, A):
     t = int(t)

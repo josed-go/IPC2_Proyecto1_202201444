@@ -1,4 +1,5 @@
-
+import funciones_archivo as fa
+from lista_datos import lista_datos
 
 def main():
     print("---------------------------------------------------")
@@ -28,10 +29,15 @@ def menu():
     print("")
 
     if opcion == "1":
-        
+        archivo = input("INGRESE EL NOMBRE DEL ARCHIVO: ")
+
+        try:
+            fa.leer_xml(archivo)
+        except:
+            print("** ARCHIVO NO ENCONTRADO **")
         menu()
     elif opcion == "2":
-        
+        fa.mostrar_datos()
         menu()
     elif opcion == "3":
         
