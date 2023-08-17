@@ -70,7 +70,6 @@ def validar(root, tree):
                     print("FALTA UN DATO EN TIEMPO =", str(t) , "Y AMPLITUD =", str(A))
                     nuevo_dato = ET.SubElement(senal, 'dato', t=str(t), A=str(A))
                     nuevo_dato.text = '0'
-                    nuevo_dato.nombre_senal = senal.get('nombre')
 
     tree.write('archivo_temporal.xml')
 
