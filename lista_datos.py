@@ -7,9 +7,6 @@ class lista_datos:
         self.ultimo = None
         self.size = 0
 
-    def esta_vacia(self):
-        return self.primero == None
-
     def agregar(self, dato):
 
         nuevo_nodo = nodo(dato)
@@ -18,13 +15,22 @@ class lista_datos:
             self.primero = nuevo_nodo
             self.ultimo = nuevo_nodo
         else:
-            self.ultimo.siguiente = nuevo_nodo
-            self.ultimo = nuevo_nodo
+            actual = self.primero
+            anterior = None
+            while actual is not None and (actual.dato.nombre_senal < nuevo_nodo.dato.nombre_senal or (actual.dato.nombre_senal == nuevo_nodo.dato.nombre_senal and (actual.dato.tiempo, actual.dato.amplitud) < (nuevo_nodo.dato.tiempo, nuevo_nodo.dato.amplitud))):
+                anterior = actual
+                actual = actual.siguiente
+            if anterior is None:
+                nuevo_nodo.siguiente = self.primero
+                self.primero = nuevo_nodo
+            else:
+                nuevo_nodo.siguiente = actual
+                anterior.siguiente = nuevo_nodo
 
         self.size += 1
         
     def mostrar_lista(self):
         auxiliar = self.primero
         while auxiliar != None:
-            print("t=", auxiliar.dato.tiempo, "| A =", auxiliar.dato.amplitud, "| Valor =", auxiliar.dato.valor, "| Binario =", auxiliar.dato.valor_binario)
+            print("t=", auxiliar.dato.tiempo, "| A =", auxiliar.dato.amplitud, "| Valor =", auxiliar.dato.valor, "| Binario =", auxiliar.dato.valor_binario, "| Señal =", auxiliar.dato.nombre_senal)
             auxiliar = auxiliar.siguiente

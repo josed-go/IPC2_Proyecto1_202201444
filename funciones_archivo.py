@@ -2,12 +2,18 @@ from dato import dato
 import xml.etree.ElementTree as ET
 import os.path as path
 from os import remove
-
+from tkinter.filedialog import askopenfilename
 from lista_datos import lista_datos
 
 lista = lista_datos()
 
 def leer_xml(archivo):
+    """print("SELECCIONE EL ARCHIVO")
+    ruta = askopenfilename()
+    archivo = open(ruta, "r")
+    archivo.close()"""
+
+
     tree = ET.parse(archivo+".xml")
     root = tree.getroot()
 
@@ -43,8 +49,8 @@ def datos_senal(senal, t, A):
             if int(valor) > 1:
                 valor = 1
 
-            print("t =",datos.get('t'), "| A =",datos.get('A'), "| Valor = ", datos.text, "| Binario =", valor)
-            nuevo_dato = dato(datos.get('t'),datos.get('A'),datos.text, valor)
+            print("t =",datos.get('t'), "| A =",datos.get('A'), "| Valor = ", datos.text, "| Binario =", valor, senal.get('nombre'))
+            nuevo_dato = dato(datos.get('t'),datos.get('A'),datos.text, valor, senal.get('nombre'))
             lista.agregar(nuevo_dato)
 
         elif validar_datos(valor_t, valor_A, t, A) == False:
@@ -64,6 +70,7 @@ def validar(root, tree):
                     print("FALTA UN DATO EN TIEMPO =", str(t) , "Y AMPLITUD =", str(A))
                     nuevo_dato = ET.SubElement(senal, 'dato', t=str(t), A=str(A))
                     nuevo_dato.text = '0'
+                    nuevo_dato.nombre_senal = senal.get('nombre')
 
     tree.write('archivo_temporal.xml')
 
