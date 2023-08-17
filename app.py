@@ -1,5 +1,18 @@
 import funciones_archivo as fa
 from lista_datos import lista_datos
+import os.path as path
+
+class archivo:
+    def __init__(self, archivo):
+        self.archivo = archivo
+
+    def set_archivo(self, archivo):
+        self.archivo = archivo
+
+    def get_archivo(self):
+        return self.archivo
+
+arch = archivo("")
 
 def main():
     print("---------------------------------------------------")
@@ -29,18 +42,26 @@ def menu():
     print("")
 
     if opcion == "1":
-        archivo = input("INGRESE EL NOMBRE DEL ARCHIVO: ")
-
+        nombre = input("INGRESE EL NOMBRE DEL ARCHIVO: ")
+        arch.set_archivo(nombre)
         try:
-            fa.leer_xml(archivo)
+            if path.exists(arch.get_archivo()+".xml") == False:
+                arch.set_archivo("")
+                print("** ARCHIVO NO ENCONTRADO **")
+            else:
+                print("\n## ARCHIVO CARGADO CON EXITO ##")
         except:
-            print("** ARCHIVO NO ENCONTRADO **")
+            print("** ERROR **")
         menu()
     elif opcion == "2":
-        fa.mostrar_datos()
+        if arch.get_archivo() != "":
+            fa.leer_xml(arch.get_archivo())
+        else:
+            print("** PRIMERO DEBES INGRESAR UN ARCHIVO **")
+        
         menu()
     elif opcion == "3":
-        
+        fa.mostrar_datos()
         menu()
     elif opcion == "4":
         datos_estudiante()
