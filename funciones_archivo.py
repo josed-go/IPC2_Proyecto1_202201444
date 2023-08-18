@@ -1,11 +1,13 @@
 from dato import dato
+from senal import senal
 import xml.etree.ElementTree as ET
 import os.path as path
 from os import remove
 from tkinter.filedialog import askopenfilename
 from lista_datos import lista_datos
+from lista_senal import lista_senal
 
-lista = lista_datos()
+lista = lista_senal()
 
 def leer_xml(archivo):
     """print("SELECCIONE EL ARCHIVO")
@@ -23,22 +25,31 @@ def leer_xml(archivo):
         tree = ET.parse("archivo_temporal.xml")
         root = tree.getroot()
 
-    for senal in root.findall('senal'):
+    for senal_ in root.findall('senal'):
         
-        nombre = senal.get('nombre') 
-        valor_t = senal.get('t')
-        valor_A = senal.get('A')
+        nombre = senal_.get('nombre') 
+        valor_t = senal_.get('t')
+        valor_A = senal_.get('A')
         
         if validar_tiempo_amplitud(valor_t, valor_A) == True:
             print("Nombre = ", nombre, "| t =",valor_t, "| A =",valor_A)
-            datos_senal(senal, valor_t, valor_A)
+
+            lista_dato = lista_datos()
+            lista_patrones = lista_datos()
+
+            datos_senal(senal_, valor_t, valor_A, lista_dato, lista_patrones)
+
+            nueva_senal = senal(nombre, valor_t, valor_A, lista_dato, lista_patrones)
+
+            lista.agregar_senal(nueva_senal)
+
         elif validar_tiempo_amplitud(valor_t, valor_A) == False:
-            print(f"** DATOS NO VALIDOS, VALOR t = {valor_t} o A = {valor_A} PASAN EL RANGO EN LA SEÑAL {senal.get('nombre')}**")
+            print(f"** DATOS NO VALIDOS, VALOR t = {valor_t} o A = {valor_A} PASAN EL RANGO EN LA SEÑAL {senal_.get('nombre')}**")
     
     if path.exists("archivo_temporal.xml"):
         remove("archivo_temporal.xml")
     
-def datos_senal(senal, t, A):
+def datos_senal(senal, t, A, lista_dato, lista_patrones):
     for datos in senal.findall('dato'):
         valor_t = datos.get('t')
         valor_A = datos.get('A')
@@ -51,7 +62,9 @@ def datos_senal(senal, t, A):
 
             print("t =",datos.get('t'), "| A =",datos.get('A'), "| Valor = ", datos.text, "| Binario =", valor, senal.get('nombre'))
             nuevo_dato = dato(datos.get('t'),datos.get('A'),datos.text, valor, senal.get('nombre'))
-            lista.agregar(nuevo_dato)
+            nuevo_patron = dato(datos.get('t'),datos.get('A'),valor, valor, senal.get('nombre'))
+            lista_dato.agregar(nuevo_dato)
+            lista_patrones.agregar(nuevo_patron)
 
         elif validar_datos(valor_t, valor_A, t, A) == False:
             print(f"** DATOS NO VALIDOS, VALOR t = {valor_t} o A = {valor_A} PASAN EL RANGO **")
