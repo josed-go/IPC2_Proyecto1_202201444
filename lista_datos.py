@@ -29,6 +29,18 @@ class lista_datos:
 
         self.size += 1
         
+    def __iter__(self):
+        self.actual = self.primero
+        return self
+
+    def __next__(self):
+        if self.actual is not None:
+            valor_actual = self.actual
+            self.actual = self.actual.siguiente
+            return valor_actual
+        else:
+            raise StopIteration
+    
     def mostrar_lista(self):
         auxiliar = self.primero
         while auxiliar != None:

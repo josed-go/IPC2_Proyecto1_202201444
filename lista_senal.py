@@ -31,5 +31,7 @@ class lista_senal:
             actual.senal.lista_datos.mostrar_lista()
             print("Patrones")
             actual.senal.lista_patrones.mostrar_lista()
+            print("Grupos")
+            actual.senal.lista_grupos.mostrar_lista()
 
             actual = actual.siguiente

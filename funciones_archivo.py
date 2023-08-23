@@ -1,20 +1,20 @@
 from dato import dato
+from dato_patron import dato_patron
+from dato_grupo import dato_grupo
+from grupo import grupo
 from senal import senal
 import xml.etree.ElementTree as ET
 import os.path as path
 from os import remove
-from tkinter.filedialog import askopenfilename
 from lista_datos import lista_datos
 from lista_senal import lista_senal
+from lista_patron import lista_patron
+from lista_grupo import lista_grupo
+from lista_dato_grupo import lista_dato_grupo
 
 lista = lista_senal()
 
 def leer_xml(archivo):
-    """print("SELECCIONE EL ARCHIVO")
-    ruta = askopenfilename()
-    archivo = open(ruta, "r")
-    archivo.close()"""
-
 
     tree = ET.parse(archivo+".xml")
     root = tree.getroot()
@@ -36,13 +36,15 @@ def leer_xml(archivo):
 
             lista_dato = lista_datos()
             lista_patrones = lista_datos()
+            lista_grupos_senal = lista_grupo()
 
             datos_senal(senal_, valor_t, valor_A, lista_dato, lista_patrones)
 
-            nueva_senal = senal(nombre, valor_t, valor_A, lista_dato, lista_patrones)
+            matriz_patrones(lista_patrones, valor_t, valor_A,lista_grupos_senal)
+
+            nueva_senal = senal(nombre, valor_t, valor_A, lista_dato, lista_patrones, lista_grupos_senal)
 
             lista.agregar_senal(nueva_senal)
-
         elif validar_tiempo_amplitud(valor_t, valor_A) == False:
             print(f"** DATOS NO VALIDOS, VALOR t = {valor_t} o A = {valor_A} PASAN EL RANGO EN LA SEÑAL {senal_.get('nombre')}**")
     
@@ -62,12 +64,69 @@ def datos_senal(senal, t, A, lista_dato, lista_patrones):
 
             print("t =",datos.get('t'), "| A =",datos.get('A'), "| Valor = ", datos.text, "| Binario =", valor, senal.get('nombre'))
             nuevo_dato = dato(datos.get('t'),datos.get('A'),datos.text, valor, senal.get('nombre'))
-            nuevo_patron = dato(datos.get('t'),datos.get('A'),valor, valor, senal.get('nombre'))
+            nuevo_patron = dato(datos.get('t'),datos.get('A'),datos.text, valor, senal.get('nombre'))
             lista_dato.agregar(nuevo_dato)
             lista_patrones.agregar(nuevo_patron)
 
         elif validar_datos(valor_t, valor_A, t, A) == False:
             print(f"** DATOS NO VALIDOS, VALOR t = {valor_t} o A = {valor_A} PASAN EL RANGO **")
+
+def matriz_patrones(lista_patrones, valor_t, valor_A, lista_grupos_senal):
+    lista_temporal = lista_patron()
+    lista_temporal_2 = lista_patron()
+    for t in range(1, int(valor_t)+1):   
+        cadena = ""
+        for patron in lista_patrones:
+            if t == int(patron.dato.tiempo):
+                cadena += str(patron.dato.valor_binario)
+        
+        dato_temporal = dato_patron(t,cadena)
+        lista_temporal.agregar_patron(dato_temporal)
+        lista_temporal_2.agregar_patron(dato_temporal)
+
+    for patron_temp in lista_temporal:
+        validar_patron(lista_temporal_2,patron_temp.patron, lista_patrones, lista_grupos_senal, valor_A)
+    
+
+def validar_patron(lista_tempo, patron, lista_patrones, lista_grupos_senal, valor_A):
+    tiempos = ""
+    for patron_validar in lista_tempo:
+
+        if patron == patron_validar.patron:
+            tiempos += str(patron_validar.tiempo)+","
+
+    tiempos_nuevo = tiempos.rstrip(',')
+
+    validar_patron_grupo(lista_patrones, tiempos_nuevo, valor_A, lista_grupos_senal)
+
+def validar_patron_grupo(lista_patrones, tiempos, valor_A, lista_grupos):
+    suma = 0
+    contador = 0
+    tiempo_sin_comas = tiempos.replace(",","")
+    lista_temporal = lista_dato_grupo()
+    if validar_tiempo_grupo(lista_grupos, tiempos) == False:
+        for i in range(1, int(valor_A)+1):
+            for datos_lista in lista_patrones:
+                if datos_lista.dato.tiempo in tiempos and int(datos_lista.dato.amplitud) == i:
+                    suma = suma + int(datos_lista.dato.valor)
+                    contador += 1
+                    if contador == len(tiempo_sin_comas):
+                        dato_grupo_nuevo = dato_grupo(datos_lista.dato.amplitud,suma, tiempos)
+                        lista_temporal.agregar_dato_grupo(dato_grupo_nuevo)
+            contador = 0
+            suma = 0
+        nuevo_grupo = grupo(lista_grupos.obtener_size(), tiempos, lista_temporal)
+        lista_grupos.agregar_grupo(nuevo_grupo)
+
+    #lista_temporal.mostrar_lista()
+
+def validar_tiempo_grupo(lista_validar, tiempos):
+    if lista_validar.obtener_size() == 0: return False
+
+    for datos_grupo in lista_validar:
+        if datos_grupo.grupo.tiempos == tiempos:
+            return True
+    return False
 
 def validar(root, tree):
     for senal in root.findall('senal'):
