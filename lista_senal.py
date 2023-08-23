@@ -19,6 +19,35 @@ class lista_senal:
         actual.siguiente = nodo_nuevo
         self.size += 1
 
+    def __iter__(self):
+        self.actual = self.primero
+        return self
+
+    def __next__(self):
+        if self.actual is not None:
+            valor_actual = self.actual
+            self.actual = self.actual.siguiente
+            return valor_actual
+        else:
+            raise StopIteration
+        
+    def mostrar_senales(self):
+        print("TOTAL DE SEÑALES:", self.size)
+        print("")
+        actual = self.primero
+
+        while actual != None:
+            print("Señal:", actual.senal.nombre)
+            actual = actual.siguiente
+
+    def grafica_original(self, nombre_archivo, nombre_senal):
+        actual = self.primero
+        while actual != None:
+            if actual.senal.nombre == nombre_senal:
+                actual.senal.lista_datos.generar_grafica_original(actual.senal.nombre, str(actual.senal.tiempo), str(actual.senal.amplitud), nombre_archivo)
+
+            actual = actual.siguiente
+
     def mostrar_lista(self):
         print("TOTAL DE SEÑALES:", self.size)
         print("")

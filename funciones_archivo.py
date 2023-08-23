@@ -148,6 +148,18 @@ def validar(root, tree):
 def mostrar_datos():
     lista.mostrar_lista()
 
+def mostrar_senales():
+    lista.mostrar_senales()
+
+def generar_grafica_original(nombre_senal, nombre_archivo):
+    lista.grafica_original(nombre_archivo, nombre_senal)
+
+def validar_nombre_senal(nombre):
+    for senales in lista:
+        if senales.senal.nombre == nombre:
+            return True
+    return False
+
 def validar_tiempo_amplitud(t, A):
     t = int(t)
     A = int(A)

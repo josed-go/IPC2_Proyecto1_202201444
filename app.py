@@ -67,7 +67,8 @@ def menu():
         datos_estudiante()
         menu()
     elif opcion == "5":
-
+        
+        opcion_graficar()
         menu()
     elif opcion == "6":
 
@@ -77,6 +78,36 @@ def menu():
     else:
         print("** OPCIÓN NO VÁLIDA **")
         menu()
+
+def opcion_graficar():
+    print("## SEÑALES DISPONIBLES ##")
+    fa.mostrar_senales()
+    print("")
+    nombre = input("INGRESE EL NOMBRE DE LA SEÑAL A GRAFICAR: ")
+    print("")
+    if fa.validar_nombre_senal(nombre) == False:
+        print("** NO EXISTE UNA SEÑAL CON ESE NOMBRE **")
+    else:
+        print("## ¿QUÉ TIPO DE GRAFICA DESEA GRAFICAR? ##")
+        print("## 1. ORIGINAL ##")
+        print("## 2. REDUCIDA ##")
+        opcion_grafica = input("INGRESE LA OPCIÓN A GRAFICAR: ")
+        print("")
+
+        if opcion_grafica == "1":
+            print("")
+            print("## GENERANDO GRAFICA ##")
+            print("")
+            nombre_archivo = input("INGRESE EL NOMBRE DE LA GRAFICA: ")
+            print("")
+            fa.generar_grafica_original(nombre,nombre_archivo)
+
+        elif opcion_grafica == "2":
+            print("opcion 2")
+            
+        else:
+            print("** OPCIÓN NO VÁLIDA **")
+            opcion_graficar()
 
 def datos_estudiante():
     print("------------------------------------------------")

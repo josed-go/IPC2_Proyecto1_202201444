@@ -1,4 +1,5 @@
 from nodo import nodo
+import os
 
 class lista_datos:
 
@@ -41,6 +42,43 @@ class lista_datos:
         else:
             raise StopIteration
     
+    def generar_grafica_original(self, nombre_senal, tiempo, amplitud, nombre_grafica):
+        f = open('bb.dot', 'w')
+
+        texto = """
+                digraph G {"t = """+tiempo+"""","A = """+amplitud+""""->" """+nombre_senal+ """" bgcolor="white" style="filled"
+            subgraph cluster1 {fillcolor="white" style="filled"
+            node [shape=box fillcolor="white" style="radial" gradientangle=180]
+            a0 [ label=<
+            <TABLE border="10" cellspacing="10" cellpadding="10" style="rounded" bgcolor="white" gradientangle="315">\n"""
+        
+        actual = self.primero
+        sentinela = actual.dato.tiempo
+        fila = False
+
+        while actual != None:
+            if sentinela != actual.dato.tiempo:
+                sentinela = actual.dato.tiempo
+                fila = False
+
+                texto += """</TR>\n"""
+            if fila == False:
+                fila = True
+                texto += """<TR>"""
+                texto += """<TD border="3" bgcolor="white">"""+str(actual.dato.valor)+"""</TD>\n"""
+            else:
+                texto += """<TD border="3" bgcolor="white">"""+str(actual.dato.valor)+"""</TD>\n"""
+            actual = actual.siguiente
+        texto += """ </TR></TABLE>>];
+                    }
+                    }\n"""
+        print(texto)
+        f.write(texto)
+        f.close()
+        os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz/bin'
+        os.system(f'dot -Tpng bb.dot -o {nombre_grafica}.png')
+        print("## GRAFICA GENERADA ##")
+
     def mostrar_lista(self):
         auxiliar = self.primero
         while auxiliar != None:
