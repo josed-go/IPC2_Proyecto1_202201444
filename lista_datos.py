@@ -46,11 +46,11 @@ class lista_datos:
         f = open('bb.dot', 'w')
 
         texto = """
-                digraph G {"t = """+tiempo+"""","A = """+amplitud+""""->" """+nombre_senal+ """" bgcolor="white" style="filled"
-            subgraph cluster1 {fillcolor="white" style="filled"
-            node [shape=box fillcolor="white" style="radial" gradientangle=180]
+                digraph G {" """+nombre_senal+""""->"t = """+tiempo+"""";" """+nombre_senal+""""->"A = """+amplitud+"""" bgcolor="white"
+            subgraph cluster1 {fillcolor="white" style="dotted"
+            node [ fillcolor="white", shape="hexagon" style="dashed"]
             a0 [ label=<
-            <TABLE border="10" cellspacing="10" cellpadding="10" style="rounded" bgcolor="white" gradientangle="315">\n"""
+            <TABLE border="0" cellspacing="10" cellpadding="10" style="solid" bgcolor="white">\n"""
         
         actual = self.primero
         sentinela = actual.dato.tiempo
@@ -65,14 +65,13 @@ class lista_datos:
             if fila == False:
                 fila = True
                 texto += """<TR>"""
-                texto += """<TD border="3" bgcolor="white">"""+str(actual.dato.valor)+"""</TD>\n"""
+                texto += """<TD border="3" style="solid" bgcolor="white">"""+str(actual.dato.valor)+"""</TD>\n"""
             else:
-                texto += """<TD border="3" bgcolor="white">"""+str(actual.dato.valor)+"""</TD>\n"""
+                texto += """<TD border="3" style="solid" bgcolor="white">"""+str(actual.dato.valor)+"""</TD>\n"""
             actual = actual.siguiente
         texto += """ </TR></TABLE>>];
                     }
                     }\n"""
-        print(texto)
         f.write(texto)
         f.close()
         os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz/bin'
