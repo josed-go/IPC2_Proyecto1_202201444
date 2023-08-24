@@ -80,7 +80,7 @@ class lista_senal:
             f.close()
             os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz/bin'
             os.system(f'dot -Tpng bb.dot -o {nombre_archivo}.png')
-            print(f"## GRAFICA REDUCIDA DE SEÑAL: {nombre_senal}.png GENERADA ##")
+            print(f"## GRAFICA REDUCIDA DE SEÑAL: {nombre_senal} GENERADA ##")
 
         
 

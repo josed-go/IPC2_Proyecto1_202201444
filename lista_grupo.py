@@ -63,6 +63,5 @@ class lista_grupo:
             print("")
             print("DATOS:")
             actual.grupo.datos_grupo.mostrar_lista()
-            print("Grafica")
             print("-------------------------------------------------------------")
             actual = actual.siguiente
