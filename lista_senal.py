@@ -68,9 +68,9 @@ class lista_senal:
         if flag:
             f = open('bb.dot','w')
             text = """ digraph G {
-	            a0 [ label=" """+actual.senal.nombre+"""" ] 
-                a1 [ label="A = """+actual.senal.amplitud+"""" ]\n
-                a2 [ shape="none" label=< <TABLE border="0" cellspacing="10" cellpadding="10" bgcolor="white">\n"""
+	            a0 [ label=" """+actual.senal.nombre+"""" fontname="Courier New" ] 
+                a1 [ label="A = """+actual.senal.amplitud+"""" fontname="Courier New" ]\n
+                a2 [ shape="none" fontname="Courier New" label=< <TABLE border="0" cellspacing="10" cellpadding="10" bgcolor="white">\n"""
             text += self.grupos
             text += """</TABLE>>]\n
                         a0 -> a1;\n
