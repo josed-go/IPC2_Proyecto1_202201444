@@ -15,7 +15,8 @@ from lista_dato_grupo import lista_dato_grupo
 lista = lista_senal()
 
 def leer_xml(archivo):
-
+    print("-> LEYENDO ARCHIVO...")
+    print("")
     tree = ET.parse(archivo+".xml")
     root = tree.getroot()
 
@@ -32,19 +33,22 @@ def leer_xml(archivo):
         valor_A = senal_.get('A')
         
         if validar_tiempo_amplitud(valor_t, valor_A) == True:
-            print("Nombre = ", nombre, "| t =",valor_t, "| A =",valor_A)
+            #print("Nombre = ", nombre, "| t =",valor_t, "| A =",valor_A)
 
             lista_dato = lista_datos()
             lista_patrones = lista_datos()
             lista_grupos_senal = lista_grupo()
 
             datos_senal(senal_, valor_t, valor_A, lista_dato, lista_patrones)
-
+            print(F"-> GENERANDO MATRIZ BINARIA DE SEÑAL: {nombre} ...")
+            print("")
             matriz_patrones(lista_patrones, valor_t, valor_A,lista_grupos_senal)
 
+            print(f"-> REALIZANDO SUMA DE TUPLAS DE SEÑAL: {nombre} ...\n")
             nueva_senal = senal(nombre, valor_t, valor_A, lista_dato, lista_patrones, lista_grupos_senal)
 
             lista.agregar_senal(nueva_senal)
+            print("-> PROCESO TERMINADO\n")
         elif validar_tiempo_amplitud(valor_t, valor_A) == False:
             print(f"** DATOS NO VALIDOS, VALOR t = {valor_t} o A = {valor_A} PASAN EL RANGO EN LA SEÑAL {senal_.get('nombre')}**")
     
@@ -62,7 +66,7 @@ def datos_senal(senal, t, A, lista_dato, lista_patrones):
             if int(valor) > 1:
                 valor = 1
 
-            print("t =",datos.get('t'), "| A =",datos.get('A'), "| Valor = ", datos.text, "| Binario =", valor, senal.get('nombre'))
+            #print("t =",datos.get('t'), "| A =",datos.get('A'), "| Valor = ", datos.text, "| Binario =", valor, senal.get('nombre'))
             nuevo_dato = dato(datos.get('t'),datos.get('A'),datos.text, valor, senal.get('nombre'))
             nuevo_patron = dato(datos.get('t'),datos.get('A'),datos.text, valor, senal.get('nombre'))
             lista_dato.agregar(nuevo_dato)
