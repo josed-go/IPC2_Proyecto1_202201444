@@ -96,14 +96,19 @@ def opcion_graficar():
 
         if opcion_grafica == "1":
             print("")
-            print("## GENERANDO GRAFICA ##")
+            print("## GENERANDO GRAFICA... ##")
             print("")
             nombre_archivo = input("INGRESE EL NOMBRE DE LA GRAFICA: ")
             print("")
             fa.generar_grafica_original(nombre,nombre_archivo)
 
         elif opcion_grafica == "2":
-            print("opcion 2")
+            print("")
+            print("## GENERANDO GRAFICA... ##")
+            print("")
+            nombre_archivo = input("INGRESE EL NOMBRE DE LA GRAFICA: ")
+            print("")
+            fa.generar_grafica_reducida(nombre, nombre_archivo)
             
         else:
             print("** OPCIÓN NO VÁLIDA **")

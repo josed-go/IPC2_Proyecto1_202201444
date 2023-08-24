@@ -1,9 +1,12 @@
 from nodo_senal import nodo_senal
+import os
 
 class lista_senal:
     def __init__(self):
         self.primero = None
         self.size = 0
+        self.grupos = ""
+        self.datos_grupos = ""
 
     def agregar_senal(self, senal):
         nodo_nuevo = nodo_senal(senal = senal)
@@ -48,6 +51,39 @@ class lista_senal:
 
             actual = actual.siguiente
 
+    def grafica_grupo(self, nombre_senal, nombre_archivo):
+        text = ""
+        flag = False
+        actual = self.primero
+        while actual != None:
+
+            if actual.senal.nombre == nombre_senal:
+
+                self.grupos = actual.senal.lista_grupos.generar_grafica()
+                flag = True
+                break
+
+            actual = actual.siguiente
+        
+        if flag:
+            f = open('bb.dot','w')
+            text = """ digraph G {
+	            a0 [ label=" """+actual.senal.nombre+"""" ] 
+                a1 [ label="A = """+actual.senal.amplitud+"""" ]\n
+                a2 [ shape="none" label=< <TABLE border="0" cellspacing="10" cellpadding="10" bgcolor="white">\n"""
+            text += self.grupos
+            text += """</TABLE>>]\n
+                        a0 -> a1;\n
+                        a0 -> a2;\n}"""
+            
+            f.write(text)
+            f.close()
+            os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz/bin'
+            os.system(f'dot -Tpng bb.dot -o {nombre_archivo}.png')
+            print(f"## GRAFICA REDUCIDA DE SEÑAL: {nombre_senal}.png GENERADA ##")
+
+        
+
     def mostrar_lista(self):
         print("TOTAL DE SEÑALES:", self.size)
         print("")
@@ -55,6 +91,7 @@ class lista_senal:
         actual = self.primero
 
         while actual != None:
+            self.grupos = ""
             print("Señal:", actual.senal.nombre, "| Tiempo:", actual.senal.tiempo, "| Amplitud:", actual.senal.amplitud)
             print("Datos")
             actual.senal.lista_datos.mostrar_lista()
@@ -64,3 +101,4 @@ class lista_senal:
             actual.senal.lista_grupos.mostrar_lista()
 
             actual = actual.siguiente
+        

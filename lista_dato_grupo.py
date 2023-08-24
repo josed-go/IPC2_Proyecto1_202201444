@@ -35,6 +35,29 @@ class lista_dato_grupo:
         
     def obtener_size(self):
         return self.size
+    
+    def generar_grafica(self, grupo):
+        datos = ""
+        actual = self.primero
+
+        sentinela = actual.dato_grupo.amplitud
+        datos += f"""<TR><TD border="1" bgcolor="white">{grupo}</TD>"""
+        
+        fila = False
+        while actual != None:
+            if sentinela != actual.dato_grupo.amplitud:
+                sentinela = actual.dato_grupo.amplitud
+                fila = False
+            if fila == False:
+                fila = True
+                datos += f"""<TD border="1" bgcolor="white">{str(actual.dato_grupo.valor)}</TD>\n"""
+            else:
+                datos += f"""<TD border="1" bgcolor="white">{str(actual.dato_grupo.valor)}</TD>\n"""
+        
+            actual = actual.siguiente
+        datos += """</TR>\n"""
+        
+        return datos
 
     def mostrar_lista(self):
         print("TOTAL DATOS:", self.size)

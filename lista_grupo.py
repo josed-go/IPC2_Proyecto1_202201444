@@ -4,6 +4,7 @@ class lista_grupo:
     def __init__(self):
         self.primero = None
         self.size = 1
+        self.datos = ""
 
     def agregar_grupo(self, grupo):
 
@@ -36,6 +37,21 @@ class lista_grupo:
     def obtener_size(self):
         return self.size
 
+    def generar_grafica(self):
+        texto = ""
+        actual = self.primero
+
+        sentinela = actual.grupo.grupo
+        
+        fila = False
+        while actual != None:
+            
+            self.datos += actual.grupo.datos_grupo.generar_grafica(f"G = {actual.grupo.grupo} (t = {actual.grupo.tiempos})")
+            actual = actual.siguiente
+        texto += "\n"+self.datos+"\n"
+        return texto
+        
+
     def mostrar_lista(self):
         print("TOTAL GRUPOS:", self.size-1)
         print("")
@@ -47,5 +63,6 @@ class lista_grupo:
             print("")
             print("DATOS:")
             actual.grupo.datos_grupo.mostrar_lista()
+            print("Grafica")
             print("-------------------------------------------------------------")
             actual = actual.siguiente
