@@ -40,7 +40,8 @@ def leer_xml(archivo):
             lista_grupos_senal = lista_grupo()
 
             datos_senal(senal_, valor_t, valor_A, lista_dato, lista_patrones)
-            print(F"-> GENERANDO MATRIZ BINARIA DE SEÑAL: {nombre} ...")
+            print("======================================================\n")
+            print(f"-> GENERANDO MATRIZ BINARIA DE SEÑAL: {nombre} ...")
             print("")
             matriz_patrones(lista_patrones, valor_t, valor_A,lista_grupos_senal)
 
