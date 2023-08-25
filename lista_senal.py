@@ -115,6 +115,9 @@ class lista_senal:
         self.size = 0
         print("-> PROCESO TERMINADO...")
 
+    def obtener_size(self):
+        return self.size
+
     def mostrar_lista(self):
         print("TOTAL DE SEÑALES:", self.size)
         print("")

@@ -170,6 +170,9 @@ def validar_nombre_senal(nombre):
 def limpiar_datos():
     lista.limpiar_datos()
 
+def obtener_tamanio_senales():
+    return lista.obtener_size()
+
 def validar_tiempo_amplitud(t, A):
     t = int(t)
     A = int(A)

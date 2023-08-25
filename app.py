@@ -72,7 +72,11 @@ def menu():
         menu()
     elif opcion == "5":
         if arch.get_archivo() != "":
-            opcion_graficar()
+            if fa.obtener_tamanio_senales() > 0:
+
+                opcion_graficar()
+            else:
+                print("** PRIMERO DEBES PROCESAR EL ARCHIVO **")
         else:
             print("** PRIMERO DEBES CARGAR UN ARCHIVO **")
         
