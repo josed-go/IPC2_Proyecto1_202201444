@@ -62,7 +62,10 @@ def menu():
         menu()
     elif opcion == "3":
         if arch.get_archivo() != "":
-            fa.mostrar_datos()
+            #fa.mostrar_datos()
+            nombre_archivo = input("INGRESE EL NOMBRE DE PARA GUARDAR EL ARCHIVO: ")
+            print("")
+            fa.generar_xml(nombre_archivo)
         else:
             print("** PRIMERO DEBES CARGAR UN ARCHIVO **")
             

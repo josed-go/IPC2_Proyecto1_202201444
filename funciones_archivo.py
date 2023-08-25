@@ -173,6 +173,9 @@ def limpiar_datos():
 def obtener_tamanio_senales():
     return lista.obtener_size()
 
+def generar_xml(nombre_archivo):
+    lista.escribir_xml(nombre_archivo)
+
 def validar_tiempo_amplitud(t, A):
     t = int(t)
     A = int(A)

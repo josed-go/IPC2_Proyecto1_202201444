@@ -1,5 +1,6 @@
 from nodo_senal import nodo_senal
 import os
+import xml.etree.ElementTree as ET
 
 class lista_senal:
     def __init__(self):
@@ -117,6 +118,45 @@ class lista_senal:
 
     def obtener_size(self):
         return self.size
+
+    def escribir_xml(self, nombre_archivo):
+        data = ET.Element('senalesReducidas')
+        actual = self.primero
+        while actual != None:
+
+            element = ET.SubElement(data, 'senal', nombre=f'{actual.senal.nombre}', A=f'{actual.senal.amplitud}')
+            grupos_ = actual.senal.lista_grupos
+            for grupos in grupos_:
+                s_element = ET.SubElement(element, 'grupo', g=f'{grupos.grupo.grupo}')
+                datos_grupos = grupos.grupo.datos_grupo
+                s_element_2 = ET.SubElement(s_element, 'tiempos')
+                s_element_2.text = grupos.grupo.tiempos
+                s_element_3 = ET.SubElement(s_element, 'datosGrupo')
+                for datos in datos_grupos:
+                    s_element_4 = ET.SubElement(s_element_3, 'dato', A=f'{datos.amplitud}')
+                    s_element_4.text = str(datos.valor)
+                    
+                
+            prueba = ET.tostring(data)
+            actual = actual.siguiente
+        self.prettify_xml(data)
+        tree = ET.ElementTree(data)
+        tree.write(nombre_archivo+".xml")
+        print("-> PROCESO TERMINADO...\n")
+        print(f"## SE CREO CORRECTAMENTE EL ARCHIVO {nombre_archivo}##\n")
+
+    def prettify_xml(self,element, indent='    '):
+        queue = [(0, element)]  # (level, element)
+        while queue:
+            level, element = queue.pop(0)
+            children = [(level + 1, child) for child in list(element)]
+            if children:
+                element.text = '\n' + indent * (level+1) 
+            if queue:
+                element.tail = '\n' + indent * queue[0][0]  
+            else:
+                element.tail = '\n' + indent * (level-1)  
+            queue[0:0] = children
 
     def mostrar_lista(self):
         print("TOTAL DE SEÑALES:", self.size)
