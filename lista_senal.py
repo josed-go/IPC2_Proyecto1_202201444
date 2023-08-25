@@ -33,7 +33,8 @@ class lista_senal:
                     self.primero = actual.siguiente
                 else:
                     senal.siguiente = actual.siguiente
-                    print(f"## SEÑAL: {nombre_senal} REPETIDA, SERA ACTUALIZADA ##")
+                    print(f"## SEÑAL: {nombre_senal} REPETIDA, SERA ACTUALIZADA ##\n")
+                self.size -= 1
                 actual = actual.siguiente
             else:
                 senal = actual
