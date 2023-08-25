@@ -57,21 +57,30 @@ def menu():
         if arch.get_archivo() != "":
             fa.leer_xml(arch.get_archivo())
         else:
-            print("** PRIMERO DEBES INGRESAR UN ARCHIVO **")
+            print("** PRIMERO DEBES CARGAR UN ARCHIVO **")
         
         menu()
     elif opcion == "3":
-        fa.mostrar_datos()
+        if arch.get_archivo() != "":
+            fa.mostrar_datos()
+        else:
+            print("** PRIMERO DEBES CARGAR UN ARCHIVO **")
+            
         menu()
     elif opcion == "4":
         datos_estudiante()
         menu()
     elif opcion == "5":
+        if arch.get_archivo() != "":
+            opcion_graficar()
+        else:
+            print("** PRIMERO DEBES CARGAR UN ARCHIVO **")
         
-        opcion_graficar()
         menu()
     elif opcion == "6":
-
+        print("-> LIMPIANDO DATOS...")
+        fa.limpiar_datos()
+        arch.set_archivo("")
         menu()
     elif opcion == "7":
         print("## SALIENDO... ##")

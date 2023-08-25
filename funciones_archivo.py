@@ -46,7 +46,7 @@ def leer_xml(archivo):
 
             print(f"-> REALIZANDO SUMA DE TUPLAS DE SEÑAL: {nombre} ...\n")
             nueva_senal = senal(nombre, valor_t, valor_A, lista_dato, lista_patrones, lista_grupos_senal)
-
+            lista.verificar_senal(nombre)
             lista.agregar_senal(nueva_senal)
             print("-> PROCESO TERMINADO\n")
         elif validar_tiempo_amplitud(valor_t, valor_A) == False:
@@ -166,6 +166,9 @@ def validar_nombre_senal(nombre):
         if senales.senal.nombre == nombre:
             return True
     return False
+
+def limpiar_datos():
+    lista.limpiar_datos()
 
 def validar_tiempo_amplitud(t, A):
     t = int(t)

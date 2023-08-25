@@ -22,6 +22,31 @@ class lista_senal:
         actual.siguiente = nodo_nuevo
         self.size += 1
 
+    def verificar_senal(self, nombre_senal):
+        senal = None
+        actual = self.primero
+
+        while actual:
+            if actual.senal.nombre == nombre_senal:
+                if senal is None:
+                    self.primero = actual.siguiente
+                else:
+                    senal.siguiente = actual.siguiente
+                    print(f"## SEÑAL: {nombre_senal} REPETIDA, SERA ACTUALIZADA ##")
+                actual = actual.siguiente
+            else:
+                senal = actual
+                actual = actual.siguiente
+            
+        """actual = self.primero
+
+        while actual != None:
+            if actual.senal.nombre == nombre_senal:
+                print(f"## SEÑAL: {nombre_senal} REPETIDA, SERA ACTUALIZADA ##")
+                del actual
+                break
+            actual.siguiente"""
+
     def __iter__(self):
         self.actual = self.primero
         return self
@@ -82,7 +107,13 @@ class lista_senal:
             os.system(f'dot -Tpng bb.dot -o {nombre_archivo}.png')
             print(f"## GRAFICA REDUCIDA DE SEÑAL: {nombre_senal} GENERADA ##")
 
-        
+    def limpiar_datos(self):
+        while self.primero != None:
+            actual = self.primero
+            self.primero = self.primero.siguiente
+            del actual
+        self.size = 0
+        print("-> PROCESO TERMINADO...")
 
     def mostrar_lista(self):
         print("TOTAL DE SEÑALES:", self.size)
