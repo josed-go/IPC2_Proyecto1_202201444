@@ -137,17 +137,19 @@ def validar(root, tree):
     for senal in root.findall('senal'):
         valor_t = senal.get('t')
         valor_A = senal.get('A')
-        coordenadas_existentes = set((dato.get('t'), dato.get('A')) for dato in senal.findall('dato'))
-    
-        for t in range(1, int(valor_t)+1):  # RANGO DE 1 AL NUMERO t
-            for A in range(1, int(valor_A)+1):  # RANGO DE 1 AL NUMERO A
-                coordenada = (str(t), str(A))
-                if coordenada not in coordenadas_existentes:
-                    print("Señal: ", senal.get('nombre'))
-                    print("FALTA UN DATO EN TIEMPO =", str(t) , "Y AMPLITUD =", str(A))
-                    nuevo_dato = ET.SubElement(senal, 'dato', t=str(t), A=str(A))
-                    nuevo_dato.text = '0'
-
+        if validar_tiempo_amplitud(valor_t, valor_A) == True:
+            coordenadas_existentes = set((dato.get('t'), dato.get('A')) for dato in senal.findall('dato'))
+        
+            for t in range(1, int(valor_t)+1):  # RANGO DE 1 AL NUMERO t
+                for A in range(1, int(valor_A)+1):  # RANGO DE 1 AL NUMERO A
+                    coordenada = (str(t), str(A))
+                    if coordenada not in coordenadas_existentes:
+                        print("Señal: ", senal.get('nombre'))
+                        print("FALTA UN DATO EN TIEMPO =", str(t) , "Y AMPLITUD =", str(A))
+                        nuevo_dato = ET.SubElement(senal, 'dato', t=str(t), A=str(A))
+                        nuevo_dato.text = '0'
+        elif validar_tiempo_amplitud(valor_t, valor_A) == False:
+            print(f"** DATOS NO VALIDOS, VALOR t = {valor_t} o A = {valor_A} PASAN EL RANGO EN LA SEÑAL {senal.get('nombre')}**")
     tree.write('archivo_temporal.xml')
 
 def mostrar_datos():
@@ -178,9 +180,9 @@ def generar_xml(nombre_archivo):
     lista.escribir_xml(nombre_archivo)
 
 def validar_tiempo_amplitud(t, A):
-    t = int(t)
-    A = int(A)
-    if t > 0 and t <= 3600 and A > 0 and A <= 130:
+    t_ = int(t)
+    A_ = int(A)
+    if t_ > 0 and t_ <= 3600 and A_ > 0 and A_ <= 130:
         return True
     else:
         return False

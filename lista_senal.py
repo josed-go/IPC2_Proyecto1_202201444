@@ -85,12 +85,11 @@ class lista_senal:
         while actual != None:
 
             if actual.senal.nombre == nombre_senal:
-
                 self.grupos = actual.senal.lista_grupos.generar_grafica()
                 flag = True
                 break
-
-            actual = actual.siguiente
+            if flag != True:
+                actual = actual.siguiente
         
         if flag:
             f = open('bb.dot','w')

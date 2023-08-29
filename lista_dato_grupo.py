@@ -39,7 +39,6 @@ class lista_dato_grupo:
     def generar_grafica(self, grupo):
         datos = ""
         actual = self.primero
-
         sentinela = actual.dato_grupo.amplitud
         datos += f"""<TR><TD border="1" bgcolor="white">{grupo}</TD>"""
         
