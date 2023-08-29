@@ -18,7 +18,7 @@ class lista_datos:
         else:
             actual = self.primero
             anterior = None
-            while actual is not None and (actual.dato.nombre_senal < nuevo_nodo.dato.nombre_senal or (actual.dato.nombre_senal == nuevo_nodo.dato.nombre_senal and (actual.dato.tiempo, actual.dato.amplitud) < (nuevo_nodo.dato.tiempo, nuevo_nodo.dato.amplitud))):
+            while actual is not None and (actual.dato.nombre_senal < nuevo_nodo.dato.nombre_senal or (actual.dato.nombre_senal == nuevo_nodo.dato.nombre_senal and (int(actual.dato.tiempo), int(actual.dato.amplitud)) < (int(nuevo_nodo.dato.tiempo), int(nuevo_nodo.dato.amplitud)))):
                 anterior = actual
                 actual = actual.siguiente
             if anterior is None:

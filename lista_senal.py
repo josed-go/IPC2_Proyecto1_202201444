@@ -88,8 +88,7 @@ class lista_senal:
                 self.grupos = actual.senal.lista_grupos.generar_grafica()
                 flag = True
                 break
-            if flag != True:
-                actual = actual.siguiente
+            actual = actual.siguiente
         
         if flag:
             f = open('bb.dot','w')

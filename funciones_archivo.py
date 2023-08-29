@@ -108,14 +108,15 @@ def validar_patron_grupo(lista_patrones, tiempos, valor_A, lista_grupos):
     suma = 0
     contador = 0
     tiempo_sin_comas = tiempos.replace(",","")
+    contador_sumas = tiempos.count(',') + 1
     lista_temporal = lista_dato_grupo()
     if validar_tiempo_grupo(lista_grupos, tiempos) == False:
         for i in range(1, int(valor_A)+1):
             for datos_lista in lista_patrones:
-                if datos_lista.dato.tiempo in tiempos and int(datos_lista.dato.amplitud) == i:
+                if buscar_tiempo_en_tiempos(str(datos_lista.dato.tiempo), tiempos) and int(datos_lista.dato.amplitud) == i:
                     suma = suma + int(datos_lista.dato.valor)
                     contador += 1
-                    if contador == len(tiempo_sin_comas):
+                    if contador == contador_sumas:
                         dato_grupo_nuevo = dato_grupo(datos_lista.dato.amplitud,suma, tiempos)
                         lista_temporal.agregar_dato_grupo(dato_grupo_nuevo)
             contador = 0
@@ -124,6 +125,18 @@ def validar_patron_grupo(lista_patrones, tiempos, valor_A, lista_grupos):
         lista_grupos.agregar_grupo(nuevo_grupo)
 
     #lista_temporal.mostrar_lista()
+
+def buscar_tiempo_en_tiempos(tiempo_buscado, tiempos):
+    inicio = 0
+    fin = 0
+    while fin <= len(tiempos):
+        if fin == len(tiempos) or tiempos[fin] == ',':
+            tiempo_actual = tiempos[inicio:fin]
+            if tiempo_actual == tiempo_buscado:
+                return True
+            inicio = fin + 1
+        fin += 1
+    return False
 
 def validar_tiempo_grupo(lista_validar, tiempos):
     if lista_validar.obtener_size() == 0: return False
