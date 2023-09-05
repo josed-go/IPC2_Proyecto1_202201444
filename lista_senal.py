@@ -78,6 +78,14 @@ class lista_senal:
 
             actual = actual.siguiente
 
+    def grafica_patrones(self, nombre_archivo, nombre_senal):
+        actual = self.primero
+        while actual != None:
+            if actual.senal.nombre == nombre_senal:
+                actual.senal.lista_datos.generar_grafica_patrones(actual.senal.nombre, str(actual.senal.tiempo), str(actual.senal.amplitud), nombre_archivo)
+
+            actual = actual.siguiente
+
     def grafica_grupo(self, nombre_senal, nombre_archivo):
         text = ""
         flag = False

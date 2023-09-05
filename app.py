@@ -106,7 +106,8 @@ def opcion_graficar():
     else:
         print("## ¿QUÉ TIPO DE GRAFICA DESEA GRAFICAR? ##")
         print("## 1. ORIGINAL ##")
-        print("## 2. REDUCIDA ##")
+        print("## 2. PATRONES ##")
+        print("## 3. REDUCIDA ##")
         opcion_grafica = input("INGRESE LA OPCIÓN A GRAFICAR: ")
         print("")
 
@@ -117,8 +118,16 @@ def opcion_graficar():
             nombre_archivo = input("INGRESE EL NOMBRE DE LA GRAFICA: ")
             print("")
             fa.generar_grafica_original(nombre,nombre_archivo)
-
+        
         elif opcion_grafica == "2":
+            print("")
+            print("## GENERANDO GRAFICA... ##")
+            print("")
+            nombre_archivo = input("INGRESE EL NOMBRE DE LA GRAFICA: ")
+            print("")
+            fa.generar_grafica_patrones(nombre, nombre_archivo)
+
+        elif opcion_grafica == "3":
             print("")
             print("## GENERANDO GRAFICA... ##")
             print("")

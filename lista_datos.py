@@ -78,6 +78,42 @@ class lista_datos:
         os.system(f'dot -Tpng bb.dot -o {nombre_grafica}.png')
         print("## GRAFICA GENERADA ##")
 
+    def generar_grafica_patrones(self, nombre_senal, tiempo, amplitud, nombre_grafica):
+        f = open('bb.dot', 'w')
+
+        texto = """
+                digraph G {" """+nombre_senal+""""->"t = """+tiempo+"""";" """+nombre_senal+""""->"A = """+amplitud+"""" bgcolor="white"
+            subgraph cluster1 {fillcolor="white" style="dotted"
+            node [ fillcolor="white", shape="hexagon" style="dashed"]
+            a0 [ label=<
+            <TABLE border="0" cellspacing="10" cellpadding="10" style="solid" bgcolor="white">\n"""
+        
+        actual = self.primero
+        sentinela = actual.dato.tiempo
+        fila = False
+
+        while actual != None:
+            if sentinela != actual.dato.tiempo:
+                sentinela = actual.dato.tiempo
+                fila = False
+
+                texto += """</TR>\n"""
+            if fila == False:
+                fila = True
+                texto += """<TR>"""
+                texto += """<TD border="3" style="solid" bgcolor="white">"""+str(actual.dato.valor_binario)+"""</TD>\n"""
+            else:
+                texto += """<TD border="3" style="solid" bgcolor="white">"""+str(actual.dato.valor_binario)+"""</TD>\n"""
+            actual = actual.siguiente
+        texto += """ </TR></TABLE>>];
+                    }
+                    }\n"""
+        f.write(texto)
+        f.close()
+        os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz/bin'
+        os.system(f'dot -Tpng bb.dot -o {nombre_grafica}.png')
+        print("## GRAFICA GENERADA ##")
+
     def mostrar_lista(self):
         auxiliar = self.primero
         while auxiliar != None:

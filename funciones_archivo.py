@@ -174,6 +174,9 @@ def mostrar_senales():
 def generar_grafica_original(nombre_senal, nombre_archivo):
     lista.grafica_original(nombre_archivo, nombre_senal)
 
+def generar_grafica_patrones(nombre_senal, nombre_archivo):
+    lista.grafica_patrones(nombre_archivo, nombre_senal)
+
 def generar_grafica_reducida(nombre_senal, nombre_archivo):
     lista.grafica_grupo(nombre_senal, nombre_archivo)
 
